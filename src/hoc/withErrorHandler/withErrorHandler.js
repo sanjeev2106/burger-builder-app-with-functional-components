@@ -8,8 +8,11 @@ const withErrorHandler = (WrappedComponent, axios) =>{
         state = {
             error: null
         }
-
-        componentDidMount(){
+// componentDidMount is called when child component has been rendered, so if error at 
+// page load, the error model will not be displayed, so we will change this to either 
+// constructor or componentWillMount becoz these are called before render() method call.  
+        //componentDidMount(){
+        componentWillMount(){
             axios.interceptors.request.use(req =>{
                 this.setState({error: null});
                 return req;
