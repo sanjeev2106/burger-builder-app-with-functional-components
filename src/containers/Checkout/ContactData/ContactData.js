@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.css';
-import axios from '../../../axios-order';
+import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 
 class ContactData extends Component {
@@ -44,7 +44,7 @@ class ContactData extends Component {
             email: {
                 elementType: 'input',
                 elementConfig: {
-                    type: 'text',
+                    type: 'email',
                     placeholder: 'Your E-Mail'
                 },
                 value: ''
@@ -58,7 +58,7 @@ class ContactData extends Component {
                     ]
                 },
                 value: ''
-            },
+            }
         },
         loading: false
     }
@@ -66,9 +66,15 @@ class ContactData extends Component {
     orderHandler = (event) => {
         event.preventDefault();
         this.setState({ loading: true });
+        const formData = {};
+        for(let formElementIdentifier in this.state.orderForm){
+            formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
+        }
+        console.log(formData);
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.price
+            price: this.props.price,
+            orderData: formData
         }
         axios.post('/orders.json', order)
             .then(response => {
@@ -104,7 +110,7 @@ class ContactData extends Component {
         }
 
         let form = (
-            <form>               
+            <form onSubmit={this.orderHandler}>               
                 {formElementsArray.map(formElement => (
                     <Input
                         key={formElement.id}
@@ -113,18 +119,18 @@ class ContactData extends Component {
                         value={formElement.config.value} 
                         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
                 ))}
-                <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
+                <Button btnType="Success">ORDER</Button>
             </form>
-        )
+        );
         if (this.state.loading) {
-            form = <Spinner />
+            form = <Spinner />;
         }
         return (
             <div className={classes.ContactData}>
                 <h4>Enter Your Contact Data</h4>
                 {form}
             </div>
-        )
+        );
     }
 }
 
