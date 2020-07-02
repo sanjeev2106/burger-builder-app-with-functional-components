@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: {
-                    ...ingredients,
+                    ...state.ingredients,
                     [action.ingredientName]: state.ingredients[action.ingredientName] + 1 
                 }
             };
@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: {
-                    ...ingredients,
+                    ...state.ingredients,
                     [action.ingredientName]: state.ingredients[action.ingredientName] - 1 
                 }
             };
