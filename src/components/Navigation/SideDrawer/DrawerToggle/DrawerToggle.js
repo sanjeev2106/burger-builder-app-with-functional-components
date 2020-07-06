@@ -1,4 +1,5 @@
 import React from 'react';
+
 import classes from './DrawerToggle.css';
 
 const drawerToggle = (props) => (
@@ -7,6 +8,6 @@ const drawerToggle = (props) => (
         <div></div>
         <div></div>
     </div>
-)
+);
 
 export default drawerToggle;

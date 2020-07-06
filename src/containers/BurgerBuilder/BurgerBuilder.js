@@ -11,14 +11,18 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios-orders';
 
-class BurgerBuilder extends Component {    
+class BurgerBuilder extends Component {
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {...}
+    // }
     state = {
         purchasing: false
     }
 
     componentDidMount () {
-        console.log(this.props);    
-        this.props.onInitIngredients();   
+        console.log(this.props); 
+        this.props.onInitIngredients();
     }
 
     updatePurchaseState ( ingredients ) {
@@ -40,8 +44,8 @@ class BurgerBuilder extends Component {
         this.setState( { purchasing: false } );
     }
 
-    purchaseContinueHandler = () => {       
-        this.props.onInitPurchage(); 
+    purchaseContinueHandler = () => {
+        this.props.onInitPurchase();
         this.props.history.push('/checkout');
     }
 
@@ -73,8 +77,8 @@ class BurgerBuilder extends Component {
                 price={this.props.price}
                 purchaseCancelled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler} />;
-        }  
-
+        }
+        // {salad: true, meat: false, ...}
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
@@ -87,20 +91,20 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = state => {
-    return{
+    return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error
     };
-} 
+}
 
 const mapDispatchToProps = dispatch => {
-    return{
+    return {
         onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients: () => dispatch(actions.initIngredients()),
-        onInitPurchage: () => dispatch(actions.purchaseInit())
-    }    
+        onInitPurchase: () => dispatch(actions.purchaseInit())
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (withErrorHandler( BurgerBuilder, axios ));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler( BurgerBuilder, axios ));
